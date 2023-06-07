@@ -23,6 +23,7 @@ Route::controller(AppDataController::class)->group(function () {
 
     Route::post('FetchAllRecords', 'FetchAllRecords');
     Route::post('FetchSpecificRecords', 'FetchSpecificRecords');
+    Route::get('/', 'NET');
     Route::any('FetchDistricts', 'FetchDistricts');
     Route::any('FetchProvinces', 'FetchProvinces');
     Route::any('FetchConstituencies', 'FetchConstituencies');
@@ -32,6 +33,14 @@ Route::controller(AppDataController::class)->group(function () {
     Route::any('FetchHealthFacilities', 'FetchHealthFacilities');
     Route::any('FetchVetFacilities', 'FetchVetFacilities');
     Route::any('FetchEnvFacilities', 'FetchEnvFacilities');
+    // Route::any('FetchEbsStructures', 'FetchEbsStructures');
+    Route::any('FetchDesignations', 'FetchDesignations');
+    Route::post('CreateEBsStructure', 'CreateEBsStructure');
+    Route::post('UpdateEBsStructure', 'UpdateEBsStructure');
+    Route::any('FetchCebsStructures', 'FetchCebsStructures');
+    Route::any('FetchVebsStructures', 'FetchVebsStructures');
+    Route::any('fetchEebsStructures', 'fetchEebsStructures');
+    Route::any('FetchMebsStructures', 'FetchMebsStructures');
 
 });
 

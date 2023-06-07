@@ -49,6 +49,14 @@ class CrudController extends Controller
         try {
             $insertData = array_merge($data, $uploadedFiles);
             DB::table($TableName)->insert($insertData);
+
+            return response()->json([
+                [
+                    'status' => 'The action executed successfully',
+                ],
+            ], 200);
+
+            
         } catch (\Exception $e) {
             Log::error($e);
 
@@ -59,11 +67,7 @@ class CrudController extends Controller
             ], 422);
         }
 
-        return response()->json([
-            [
-                'status' => 'The action executed successfully',
-            ],
-        ], 200);
+       
     }
 
     private function moveUploadedFile($file)
@@ -149,7 +153,16 @@ class CrudController extends Controller
         $TableName = $request->TableName;
         $id        = $request->id;
 
+       
+
         try {
+            if ($TableName == "ebs_structures") {
+
+                $u = DB::table($TableName)->where('id', $id)->first();
+
+
+                DB::table('users')->where('UserID', $u->UserID)->delete();
+            }
 
             DB::table($TableName)->where('id', $id)->delete();
 
