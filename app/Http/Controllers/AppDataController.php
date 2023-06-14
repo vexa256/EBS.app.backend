@@ -260,6 +260,30 @@ class AppDataController extends Controller
     }
 
 
+    public function FetchEebsStructures()
+    {
+        $recs = DB::table('ebs_structures AS S')
+        ->leftJoin('health_facilities AS HF', 'HF.HFID', 'S.FacilityID')
+        ->where('S.EbsType', 'EEBS')
+        ->select('S.*', 'HF.HealthFacilityName', 'HF.FacilityCategory', 'HF.AdministrativeStructureLevel AS Level')
+        ->get()
+            ->unique('id');
+
+        return response()->json(['records' => $recs]);
+    }
+    public function FetchHotlineStructures()
+    {
+
+        $recs = DB::table('ebs_structures AS S')
+        ->leftJoin('health_facilities AS HF', 'HF.HFID', 'S.FacilityID')
+        ->where('S.EbsType', 'HOTLINE')
+        ->select('S.*', 'HF.HealthFacilityName', 'HF.FacilityCategory', 'HF.AdministrativeStructureLevel AS Level')
+        ->get()
+            ->unique('id');
+
+
+        return response()->json(['records' => $recs]);
+    }
     public function FetchMebsStructures()
     {
         $recs = DB::table('ebs_structures AS S')
@@ -286,17 +310,7 @@ class AppDataController extends Controller
         return response()->json(['records' => $recs]);
     }
 
-    public  function fetchEebsStructures()
-    {
-        $recs =  DB::table('ebs_structures AS S')
-        ->leftJoin('environment_facilities AS EF', 'EF.EFID', 'S.FacilityID')
-        ->where('S.EbsType', 'EBS')
-        ->select('S.*', 'EF.EnvironmentalFacilityName', 'EF.FacilityCategory AS EnvFacilityCategory')
-        ->get()
-            ->unique('id');
-
-            return response()->json(['records' => $recs]);
-    }
+  
 
 
     public function FetchDesignations()
@@ -326,12 +340,13 @@ class AppDataController extends Controller
                     "name" => $request->Name,
                     "email" => $request->Email,
                     "password" => \Hash::make($request->PhoneNumber),
+                    "PhoneNumber" => $request->PhoneNumber,
                     "UserID" => $request->UserID,
                     "role" => $request->AdministrativeLevel,
                 ]);
 
                 DB::table($request->TableName)
-                    ->insert($request->except(['_token', 'id', 'TableName']));
+                    ->insert($request->except(['_token', 'id', 'TableName', 'PostRoute']));
             }, 5);
 
             return response()->json([
@@ -392,6 +407,73 @@ class AppDataController extends Controller
                 'error' => 'Failed to update data. ' . $e->getMessage(),
             ], 422);
         }
+    }
+
+
+    public function FetchEbsSignalCategory()
+    {
+        $recs = DB::table('ebs_signal_categories')->get()->unique('id');
+
+
+        return response()->json(['records' => $recs]);
+    }
+
+    public function FetchEbsSignals()
+    {
+        $recs = DB::table('ebs_signal_categories AS C')
+            ->join('ebs_signals AS S', 'S.EbsSignalCategoryID', 'C.EbsSignalCategoryID')
+            ->where('S.EbsType', "CEBS")
+            ->get()->unique('id');
+
+        return response()->json(['records' => $recs]);
+    }
+
+
+    public function FetchHFEbsSignals()
+    {
+
+        $recs = DB::table('ebs_signal_categories AS C')
+            ->join('ebs_signals AS S', 'S.EbsSignalCategoryID', 'C.EbsSignalCategoryID')
+            ->where('S.EbsType', "HFEBS")
+            ->get()->unique('id');
+
+        return response()->json(['records' => $recs]);
+    }
+
+    public function FetchMEBsSignals()
+    {
+
+        $recs = DB::table('ebs_signal_categories AS C')
+            ->join('ebs_signals AS S', 'S.EbsSignalCategoryID', 'C.EbsSignalCategoryID')
+            ->where('S.EbsType', "MEBS")
+            ->get()->unique('id');
+
+        return response()->json(['records' => $recs]);
+    }
+
+
+
+    public function FetchHotlineSignals()
+    {
+
+        $recs = DB::table('ebs_signal_categories AS C')
+            ->join('ebs_signals AS S', 'S.EbsSignalCategoryID', 'C.EbsSignalCategoryID')
+            ->where('S.EbsType', "HOTLINE")
+            ->get()->unique('id');
+
+        return response()->json(['records' => $recs]);
+    }
+
+
+    public function FetchEEBSSignals()
+    {
+
+        $recs = DB::table('ebs_signal_categories AS C')
+            ->join('ebs_signals AS S', 'S.EbsSignalCategoryID', 'C.EbsSignalCategoryID')
+            ->where('S.EbsType', "EEBS")
+            ->get()->unique('id');
+
+        return response()->json(['records' => $recs]);
     }
 
 }

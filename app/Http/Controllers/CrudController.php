@@ -14,9 +14,11 @@ class CrudController extends Controller
 
     public function MassInsert(Request $request)
     {
+        // \Log::info($request->allFiles()); // Log all files that are uploaded.
+
         $TableName     = $request->TableName;
         $tableColumns  = Schema::getColumnListing($TableName);
-        $data          = $request->except(['_token', 'id', 'TableName']);
+        $data          = $request->except(['_token', 'id', 'TableName', 'PostRoute']);
         $rules         = [];
         $uploadedFiles = [];
 
@@ -47,6 +49,13 @@ class CrudController extends Controller
 
         // Insert data into the table
         try {
+            unset($data['TableName']);
+            unset($data['id']);
+            unset($data['PostRoute']);
+            unset($data['_token']);
+            // unset($data['PostRoute']);
+
+            
             $insertData = array_merge($data, $uploadedFiles);
             DB::table($TableName)->insert($insertData);
 
@@ -94,7 +103,7 @@ class CrudController extends Controller
     {
         $TableName     = $request->TableName;
         $tableColumns  = Schema::getColumnListing($TableName);
-        $data          = $request->except(['_token', 'id', 'TableName']);
+        $data          = $request->except(['_token', 'id', 'TableName', 'PostRoute']);
         $rules         = [];
         $uploadedFiles = [];
 

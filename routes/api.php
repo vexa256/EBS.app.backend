@@ -6,6 +6,7 @@ use App\Http\Controllers\FormEngine;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\AppDataController;
+use App\Http\Controllers\MobileAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\AppDataController;
  */
 // Route::middleware('auth:api', 'throttle:6000000,1')->group(function () {
 
+Route::controller(MobileAuthController::class)->group(function () {
+    Route::post('AuthenticateUser', 'AuthenticateUser');
+});
 Route::controller(AppDataController::class)->group(function () {
 
     Route::post('FetchAllRecords', 'FetchAllRecords');
@@ -41,6 +45,14 @@ Route::controller(AppDataController::class)->group(function () {
     Route::any('FetchVebsStructures', 'FetchVebsStructures');
     Route::any('fetchEebsStructures', 'fetchEebsStructures');
     Route::any('FetchMebsStructures', 'FetchMebsStructures');
+    Route::any('FetchHotlineStructures', 'FetchHotlineStructures');
+    Route::any('FetchEbsSignalCategory', 'FetchEbsSignalCategory');
+    Route::any('FetchEbsSignals', 'FetchEbsSignals');
+    Route::any('FetchHFEbsSignals', 'FetchHFEbsSignals');
+    Route::any('FetchMEBsSignals', 'FetchMEBsSignals');
+    Route::any('FetchHotlineSignals', 'FetchHotlineSignals');
+    Route::any('FetchEEBSSignals', 'FetchEEBSSignals');
+    // Route::any('FetchEebsStructures', 'FetchEebsStructures');
 
 });
 
