@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('RoleID')->unique();
             $table->string('Role');
             $table->string('EbsType');
+            $table->string('UserID');
             $table->string('BriefDescription');
             $table->string('Name')->unique();
             $table->string('ChvGroupID');

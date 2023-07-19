@@ -7,22 +7,93 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\AppDataController;
 use App\Http\Controllers\MobileAuthController;
+use App\Http\Controllers\CebsReportsController;
+use App\Http\Controllers\RiskAssesmentController;
+use App\Http\Controllers\SignalTriagingController;
+use App\Http\Controllers\SignalReportingController;
+use App\Http\Controllers\SignalVerficationController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
- */
-// Route::middleware('auth:api', 'throttle:6000000,1')->group(function () {
+
+Route::controller(CebsReportsController::class)->group(function () {
+
+
+    Route::any('countAllRecords', 'countAllRecords');
+    Route::any('ReportedVsUnverified', 'ReportedVsUnverified');
+    Route::any('ReportedVsDiscarded', 'ReportedVsDiscarded');
+    Route::any('ReportedVsVerified', 'ReportedVsVerified');
+    Route::any('FetchRiskAssessmentCounts', 'FetchRiskAssessmentCounts');
+    Route::any('TimeResponseAnalytics', 'TimeResponseAnalytics');
+    Route::any('Least5ReportingByDistrict', 'Least5ReportingByDistrict');
+    Route::any('Top5ReportingByDistrict', 'Top5ReportingByDistrict');
+    Route::any('ReportingByDistrict', 'ReportingByDistrict');
+});
+
+
+
+
+Route::controller(RiskAssesmentController::class)->group(function () {
+
+    Route::any('FetchCebsRiskAssessed', 'FetchCebsRiskAssessed');
+    Route::any('RiskAssessEvent', 'RiskAssessEvent');
+    Route::any('FetchCebsRiskAssessmentSignal', 'FetchCebsRiskAssessmentSignal');
+    Route::any('FetchUnAssessedSignals', 'FetchUnAssessedSignals');
+    Route::any('CebsAssessmentSignalStats', 'CebsAssessmentSignalStats');
+    Route::any('SelectPendingRiskAssessment', 'SelectPendingRiskAssessment');
+});
+Route::controller(SignalVerficationController::class)->group(function () {
+
+    Route::any('FetchDiscardedCebsSignals', 'FetchDiscardedCebsSignals');
+
+    Route::any('FetchVerifiedCebsSignals', 'FetchVerifiedCebsSignals');
+
+
+    Route::any('DiscardTheCebsSignal', 'DiscardTheCebsSignal');
+
+    Route::any('CebsSignalVerificationReport', 'CebsSignalVerificationReport');
+
+
+    Route::any('VerifyTheCebsSignal', 'VerifyTheCebsSignal');
+
+    Route::any('FetchCebsVerifyAttributes', 'FetchCebsVerifyAttributes');
+
+    Route::any('CebsFetchVerifySignal', 'CebsFetchVerifySignal');
+
+    Route::any('VerifyCebsSignals', 'VerifyCebsSignals');
+
+    Route::any('CebsSignalPendingVerification', 'CebsSignalPendingVerification');
+    Route::any('CebsVerifySignalStats', 'CebsVerifySignalStats');
+});
+
+
+
+
+Route::controller(SignalTriagingController::class)->group(function () {
+    Route::any('SignalStats', 'SignalStats');
+    Route::any('TriageCebsSignals', 'TriageCebsSignals');
+    Route::any('TriageASignal', 'TriageASignal');
+    Route::any('DiscardASignal', 'DiscardASignal');
+    Route::any('CebsTriagedSignals', 'CebsTriagedSignals');
+    Route::any('CebsDiscardedSignals', 'CebsDiscardedSignals');
+    Route::any('ReverseCebsSignalTriage', 'ReverseCebsSignalTriage');
+    Route::any('ReverseCebsDiscardedTriage', 'ReverseCebsDiscardedTriage');
+});
+Route::controller(SignalReportingController::class)->group(function () {
+
+    Route::post('ReportCebsSignals', 'ReportCebsSignals');
+    Route::post('fetchCebsMyReportedSignals', 'fetchCebsMyReportedSignals');
+    Route::post('deleteReportSignal', 'deleteReportSignal');
+    Route::post('FetchCebsReportCount', 'FetchCebsReportCount');
+});
+
 
 Route::controller(MobileAuthController::class)->group(function () {
+    Route::post('UserRole', 'UserRole');
     Route::post('AuthenticateUser', 'AuthenticateUser');
 });
+
+
+
+
 Route::controller(AppDataController::class)->group(function () {
 
     Route::post('FetchAllRecords', 'FetchAllRecords');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ebs_signals', function (Blueprint $table) {
             $table->id();
-            $table->string('ReportID');
+            // $table->string('ReportID');
             $table->string('EbsType');
             $table->string('EbsSignal')->unique();
             $table->integer('SignalNumber')->unique();

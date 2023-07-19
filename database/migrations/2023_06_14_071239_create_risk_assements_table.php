@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('risk_assements', function (Blueprint $table) {
             $table->id();
             $table->string('ReportID');
-            $table->string('RiskAssessmentStatus')->default('Not Verified');
+            $table->string('RiskAssessmentStatus')->default('Not Assessed');
             $table->string('DelayStatus')->default('Pending RiskAssessment');
             $table->string('RiskAssessmentDate')->nullable();
             $table->string('RiskAssessmentByUserID')->nullable();

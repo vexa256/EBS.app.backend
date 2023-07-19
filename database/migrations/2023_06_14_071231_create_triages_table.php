@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('triages', function (Blueprint $table) {
             $table->id();
             $table->string('ReportID');
-            $table->string('TriagingStatus')->default('Not Verified');
+            $table->string('TriagingStatus')->default('Not Triaged');
             $table->string('DelayStatus')->default('Pending Triaging');
             $table->string('TriagingDate')->nullable();
             $table->string('TriagedByUserID')->nullable();

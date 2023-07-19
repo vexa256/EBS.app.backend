@@ -25,7 +25,7 @@ class CrudController extends Controller
         // Build validation rules based on table columns and input types
         foreach ($tableColumns as $column) {
             if ($request->hasFile($column)) {
-                $rules[$column] = 'file|mimes:pdf,doc,docx,jpg,jpeg,png|max:80000';
+                $rules[$column] = 'file|mimes:pdf,doc,docx,jpg,jpeg,png,webp`|max:80000';
             } else {
                 $rules[$column] = 'nullable';
             }
