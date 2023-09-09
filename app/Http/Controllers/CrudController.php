@@ -55,16 +55,41 @@ class CrudController extends Controller
             unset($data['_token']);
             // unset($data['PostRoute']);
 
+            if ($TableName == 'districts') {
+
+                $PID = DB::table('provinces')->where('ProvinceName', $request->ProvinceID)->first();
+
+                $insertData = array_merge($data, $uploadedFiles);
+                DB::table($TableName)->insert($insertData);
+
+                DB::table($TableName)->where('DistrictID', $request->DistrictID)->update([
+
+                    'ProvinceID' => $PID->ProvinceID
+
+                ]);
+
+                return response()->json([
+                    [
+                        'status' => 'The action executed successfully',
+                    ],
+                ], 200);
+            } else {
+
+                $insertData = array_merge($data, $uploadedFiles);
+                DB::table($TableName)->insert($insertData);
+
+                return response()->json([
+                    [
+                        'status' => 'The action executed successfully',
+                    ],
+                ], 200);
+            }
+
+
+          
             
-            $insertData = array_merge($data, $uploadedFiles);
-            DB::table($TableName)->insert($insertData);
 
-            return response()->json([
-                [
-                    'status' => 'The action executed successfully',
-                ],
-            ], 200);
-
+           
             
         } catch (\Exception $e) {
             Log::error($e);
@@ -73,7 +98,7 @@ class CrudController extends Controller
                 [
                     'error_a' => 'Failed to insert data.  ' . $e->getMessage(),
                 ],
-            ], 422);
+            ]);
         }
 
        
@@ -152,6 +177,7 @@ class CrudController extends Controller
         return response()->json([
             [
                 'status' => 'The action executed successfully',
+                'data' => $request->all(),
             ],
         ], 200);
     }
